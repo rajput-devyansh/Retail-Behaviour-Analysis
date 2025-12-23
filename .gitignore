@@ -1,2 +1,3 @@
 *.db
-/raw_data/
+*.db-journal
+/Data/
