@@ -1,0 +1,156 @@
+table vw_sales_orders
+	lineageTag: ac2b6a0c-348f-4c75-932e-07649c495032
+
+	measure 'Total Revenue' = SUM(vw_sales_orders[revenue])
+		lineageTag: 068c8017-222d-44b3-b300-8249097aeefc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Profit' = SUM(vw_sales_orders[profit])
+		lineageTag: 4ba62b90-892e-496e-8271-0cd3481e0d93
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Orders' = DISTINCTCOUNT(vw_sales_orders[order_id])
+		formatString: 0
+		lineageTag: a2a62fad-5527-44ff-9d3e-491527e41ab1
+
+	measure 'Average Order Value' = DIVIDE([Total Revenue], [Total Orders])
+		lineageTag: 1ab1cc40-733c-48bb-900d-37c48022d81b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit Margin %' = DIVIDE([Total Profit], [Total Revenue])
+		lineageTag: efd0717d-7111-441f-ab57-aabbfaff1d5a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column order_id
+		dataType: double
+		lineageTag: 950cb686-6509-4945-a042-ec1b57a0e07d
+		summarizeBy: sum
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column visitorid
+		dataType: double
+		lineageTag: 4a77e9a1-83d5-41ed-9ac4-a2b964dd4173
+		summarizeBy: none
+		sourceColumn: visitorid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column itemid
+		dataType: double
+		lineageTag: a1bd7f28-24c6-47b2-8803-fc6f67579fd2
+		summarizeBy: none
+		sourceColumn: itemid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column order_date
+		dataType: string
+		lineageTag: c9aff625-55a6-44ff-bf46-74444ad8a4c3
+		summarizeBy: none
+		sourceColumn: order_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: double
+		lineageTag: 388955fd-66bb-4eea-8eee-859d1029ab2c
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month
+		dataType: double
+		lineageTag: d98889fc-f607-408a-ae1f-5c7f15a7c4d5
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column week
+		dataType: double
+		lineageTag: 019080d9-35fa-4e8b-9daa-65e3387b48ab
+		summarizeBy: none
+		sourceColumn: week
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column categoryid
+		dataType: double
+		lineageTag: 33db876b-42e8-4f1f-9723-7f437e69d364
+		summarizeBy: none
+		sourceColumn: categoryid
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column parent_categoryid
+		dataType: double
+		lineageTag: 45a94c67-06b3-46d6-a399-cdbe25839b14
+		summarizeBy: sum
+		sourceColumn: parent_categoryid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column revenue
+		dataType: double
+		lineageTag: 79cf6a96-5e1e-449a-b2cb-6b045e16e32b
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cost
+		dataType: double
+		lineageTag: e89f856a-1759-42c3-beca-42875521e28d
+		summarizeBy: sum
+		sourceColumn: cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column profit
+		dataType: double
+		lineageTag: a6e6b680-8081-4349-aa04-9cbb9a70f264
+		summarizeBy: sum
+		sourceColumn: profit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition vw_sales_orders = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("dsn=retailrocket_analytics", [HierarchicalNavigation=true]),
+				    vw_sales_orders_View = Source{[Name="vw_sales_orders",Kind="View"]}[Data]
+				in
+				    vw_sales_orders_View
+
+	annotation PBI_ResultType = Table
+

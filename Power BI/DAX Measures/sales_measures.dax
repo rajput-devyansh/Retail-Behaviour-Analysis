@@ -1,0 +1,9 @@
+Total Revenue = SUM(vw_sales_orders[revenue])
+
+Total Profit = SUM(vw_sales_orders[profit])
+
+Total Orders = DISTINCTCOUNT(vw_sales_orders[order_id])
+
+Average Order Value = DIVIDE([Total Revenue], [Total Orders])
+
+Profit Margin % = DIVIDE([Total Profit], [Total Revenue])

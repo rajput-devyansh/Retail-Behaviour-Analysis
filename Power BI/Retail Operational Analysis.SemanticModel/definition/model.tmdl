@@ -1,0 +1,22 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["vw_funnel_performance","vw_product_performance","vw_sales_orders","vw_session_metrics","vw_visitor_summary"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table vw_funnel_performance
+ref table vw_product_performance
+ref table vw_sales_orders
+ref table vw_session_metrics
+ref table vw_visitor_summary
+
+ref cultureInfo en-US
+

@@ -1,0 +1,11 @@
+Total Views = SUM(vw_funnel_performance[viewed])
+
+Total Add To Cart = SUM(vw_funnel_performance[added_to_cart])
+
+Total Purchases = SUM(vw_funnel_performance[purchased])
+
+View to Cart % = DIVIDE([Total Add To Cart], [Total Views])
+
+Cart to Purchase % = DIVIDE([Total Purchases], [Total Add To Cart])
+
+View to Purchase % = DIVIDE([Total Purchases], [Total Views])

@@ -1,0 +1,120 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "b9c23b1115c9620c06a3",
+  "position": {
+    "x": 753,
+    "y": 464,
+    "z": 3000,
+    "height": 256,
+    "width": 527,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_funnel_performance"
+                    }
+                  },
+                  "Property": "categoryid"
+                }
+              },
+              "queryRef": "vw_funnel_performance.categoryid",
+              "nativeQueryRef": "categoryid",
+              "active": true,
+              "format": "0"
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_funnel_performance"
+                    }
+                  },
+                  "Property": "Total Views"
+                }
+              },
+              "queryRef": "vw_funnel_performance.Total Views",
+              "nativeQueryRef": "Total Views",
+              "format": "0"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_funnel_performance"
+                    }
+                  },
+                  "Property": "Total Add To Cart"
+                }
+              },
+              "queryRef": "vw_funnel_performance.Total Add To Cart",
+              "nativeQueryRef": "Total Add To Cart",
+              "format": "0"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_funnel_performance"
+                    }
+                  },
+                  "Property": "Total Purchases"
+                }
+              },
+              "queryRef": "vw_funnel_performance.Total Purchases",
+              "nativeQueryRef": "Total Purchases",
+              "format": "0"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_funnel_performance"
+                    }
+                  },
+                  "Property": "View to Purchase %"
+                }
+              },
+              "queryRef": "vw_funnel_performance.View to Purchase %",
+              "nativeQueryRef": "View to Purchase %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "vw_funnel_performance"
+                  }
+                },
+                "Property": "View to Purchase %"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

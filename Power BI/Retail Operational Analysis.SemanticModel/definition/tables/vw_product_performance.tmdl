@@ -1,0 +1,68 @@
+table vw_product_performance
+	lineageTag: 32630df3-0eb7-433d-9ebe-6d118441be21
+
+	column itemid
+		dataType: double
+		lineageTag: 7c7d7208-f0bb-4ecb-a538-2ecdcea68632
+		summarizeBy: none
+		sourceColumn: itemid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column categoryid
+		dataType: double
+		lineageTag: a07a1b61-fc9a-4be4-9a8f-7c1ee03998a7
+		summarizeBy: sum
+		sourceColumn: categoryid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column parent_categoryid
+		dataType: double
+		lineageTag: aa3ddc05-f4b0-4704-9946-832c5e14a50c
+		summarizeBy: sum
+		sourceColumn: parent_categoryid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_orders
+		dataType: string
+		lineageTag: bb40ccb5-e736-4837-9670-e87549770510
+		summarizeBy: none
+		sourceColumn: total_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_revenue
+		dataType: string
+		lineageTag: daaec9f9-ce00-40fe-87e2-afeb460da38d
+		summarizeBy: none
+		sourceColumn: total_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_profit
+		dataType: string
+		lineageTag: 865367d1-1436-469b-adc1-60223d5f571a
+		summarizeBy: none
+		sourceColumn: total_profit
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vw_product_performance = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("dsn=retailrocket_analytics", [HierarchicalNavigation=true]),
+				    vw_product_performance_View = Source{[Name="vw_product_performance",Kind="View"]}[Data]
+				in
+				    vw_product_performance_View
+
+	annotation PBI_ResultType = Table
+

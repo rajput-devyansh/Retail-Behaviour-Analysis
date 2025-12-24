@@ -1,0 +1,114 @@
+table vw_funnel_performance
+	lineageTag: 6f11369d-503b-4d01-a2ba-034eeee6eff7
+
+	measure 'Total Add To Cart' = SUM(vw_funnel_performance[added_to_cart])
+		lineageTag: da7040f7-85bb-45f7-ae7d-0bbde430f8ca
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Views' = SUM(vw_funnel_performance[viewed])
+		lineageTag: 68ff5a5d-6124-4c00-927a-b539ee912ece
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Purchases' = SUM(vw_funnel_performance[purchased])
+		lineageTag: 82ab9e18-ddc3-488e-9638-64754963cc33
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'View to Cart %' = DIVIDE([Total Add To Cart], [Total Views])
+		lineageTag: 8b88c26d-ceb3-421a-9336-9cf505032c2e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cart to Purchase %' = DIVIDE([Total Purchases], [Total Add To Cart])
+		lineageTag: dcfbb039-9f39-424a-9fe7-bc9c872ba268
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'View to Purchase %' = DIVIDE([Total Purchases], [Total Views])
+		lineageTag: a599ad75-5f20-4de6-9e58-d05c37870f7b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column visitorid
+		dataType: double
+		lineageTag: 84c74704-9c17-4aff-bf9a-2a846d94df36
+		summarizeBy: none
+		sourceColumn: visitorid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column itemid
+		dataType: double
+		lineageTag: 132e1b7f-f373-4968-9868-f7260d7db80c
+		summarizeBy: none
+		sourceColumn: itemid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column categoryid
+		dataType: double
+		lineageTag: 4c375bfa-28eb-4d36-ba57-6a304751c8b7
+		summarizeBy: sum
+		sourceColumn: categoryid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column parent_categoryid
+		dataType: double
+		lineageTag: f677b752-00b6-4570-ae59-109ec434b419
+		summarizeBy: sum
+		sourceColumn: parent_categoryid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column viewed
+		dataType: double
+		lineageTag: 8d24ddab-2408-4269-b593-8366eef9d6f9
+		summarizeBy: sum
+		sourceColumn: viewed
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column added_to_cart
+		dataType: double
+		lineageTag: 285732e5-fe43-4236-ab89-17c0b5eaedd2
+		summarizeBy: sum
+		sourceColumn: added_to_cart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column purchased
+		dataType: double
+		lineageTag: bb7882b4-fd18-4d59-8e8e-3ff1f80ef790
+		summarizeBy: sum
+		sourceColumn: purchased
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition vw_funnel_performance = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("dsn=retailrocket_analytics", [HierarchicalNavigation=true]),
+				    vw_funnel_performance_View = Source{[Name="vw_funnel_performance",Kind="View"]}[Data]
+				in
+				    vw_funnel_performance_View
+
+	annotation PBI_ResultType = Table
+

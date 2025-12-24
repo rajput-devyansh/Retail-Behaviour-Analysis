@@ -1,0 +1,15 @@
+Total Sessions = COUNT(vw_session_metrics[session_id])
+
+Avg Session Duration = AVERAGE(vw_session_metrics[duration_minutes])
+
+Sessions per Visitor = DIVIDE([Total Sessions], DISTINCTCOUNT(vw_session_metrics[visitorid]))
+
+#columns
+Session Duration Bucket =
+SWITCH(
+    TRUE(),
+    vw_session_metrics[duration_minutes] < 1, "0–1 min",
+    vw_session_metrics[duration_minutes] < 5, "1–5 min",
+    vw_session_metrics[duration_minutes] < 10, "5–10 min",
+    "10+ min"
+)

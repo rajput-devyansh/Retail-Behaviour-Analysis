@@ -1,0 +1,16 @@
+Total Visitors = DISTINCTCOUNT(vw_visitor_summary[visitorid])
+
+Revenue per Visitor = DIVIDE([Total Revenue], [Total Visitors])
+
+Segment Revenue = SUM(vw_visitor_summary[total_revenue])
+
+Orders = SUM(vw_visitor_summary[total_orders])
+
+#column
+Visitor Segment =
+SWITCH(
+    TRUE(),
+    vw_visitor_summary[total_orders] = 0, "Browsers",
+    vw_visitor_summary[total_orders] = 1, "One-time Buyers",
+    vw_visitor_summary[total_orders] >= 2, "Repeat Buyers"
+)

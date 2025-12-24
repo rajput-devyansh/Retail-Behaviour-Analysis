@@ -1,0 +1,109 @@
+table vw_session_metrics
+	lineageTag: 354be4c6-f95b-4f21-b52a-ec683fc66655
+
+	measure 'Total Sessions' = COUNT(vw_session_metrics[session_id])
+		formatString: 0
+		lineageTag: e22df6f4-5fc7-46c2-b850-bade5068a7b1
+
+	measure 'Avg Session Duration' = AVERAGE(vw_session_metrics[duration_minutes])
+		lineageTag: 0e1b8414-00de-4eae-bdc2-f0a8e8b830cf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sessions per Visitor' = DIVIDE([Total Sessions], DISTINCTCOUNT(vw_session_metrics[visitorid]))
+		lineageTag: 6339a474-8c12-4fc1-9766-202ead5760b3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column session_id
+		dataType: double
+		lineageTag: be60fbbc-c426-4b5a-9b6d-36f38571879b
+		summarizeBy: sum
+		sourceColumn: session_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column visitorid
+		dataType: double
+		lineageTag: 8d5443ad-98d6-442a-bf1c-0f735b8df09e
+		summarizeBy: none
+		sourceColumn: visitorid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column session_date
+		dataType: string
+		lineageTag: 485e4ec9-88ba-487b-8d86-18707f24e922
+		summarizeBy: none
+		sourceColumn: session_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: double
+		lineageTag: 8b36b382-6e5c-4b0f-9f1a-c11ede0058e6
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month
+		dataType: double
+		lineageTag: b96776b3-4896-44e8-bac5-b78a147620d8
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column week
+		dataType: double
+		lineageTag: 733741cd-c70e-4013-8fe5-eec72fd33349
+		summarizeBy: none
+		sourceColumn: week
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column duration_minutes
+		dataType: double
+		lineageTag: ed0169c2-f4ba-48a9-8bc1-4e597d612f5f
+		summarizeBy: none
+		sourceColumn: duration_minutes
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Session Duration Bucket' =
+			SWITCH(
+			    TRUE(),
+			    vw_session_metrics[duration_minutes] < 1, "0–1 min",
+			    vw_session_metrics[duration_minutes] < 5, "1–5 min",
+			    vw_session_metrics[duration_minutes] < 10, "5–10 min",
+			    "10+ min"
+			)
+		lineageTag: efbcea2e-ca67-44b2-9abb-9b24c59090e8
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vw_session_metrics = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("dsn=retailrocket_analytics", [HierarchicalNavigation=true]),
+				    vw_session_metrics_View = Source{[Name="vw_session_metrics",Kind="View"]}[Data]
+				in
+				    vw_session_metrics_View
+
+	annotation PBI_ResultType = Table
+

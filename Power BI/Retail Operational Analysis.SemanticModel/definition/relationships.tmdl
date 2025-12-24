@@ -1,0 +1,20 @@
+relationship AutoDetected_04ad64c3-465d-415b-83aa-fb729c2652bd
+	fromColumn: vw_funnel_performance.visitorid
+	toColumn: vw_visitor_summary.visitorid
+
+relationship AutoDetected_ce1a0756-377e-4882-b16e-1b3ea3208176
+	fromColumn: vw_sales_orders.visitorid
+	toColumn: vw_visitor_summary.visitorid
+
+relationship AutoDetected_1d4f8ec6-8b0d-404f-a6a5-3540312ae919
+	fromColumn: vw_session_metrics.visitorid
+	toColumn: vw_visitor_summary.visitorid
+
+relationship AutoDetected_0c41977a-d1ab-462f-ad19-cff8010f34c3
+	fromColumn: vw_funnel_performance.itemid
+	toColumn: vw_product_performance.itemid
+
+relationship AutoDetected_ee73dfdf-95d0-49ad-ba38-4afb9ba2c042
+	fromColumn: vw_sales_orders.itemid
+	toColumn: vw_product_performance.itemid
+

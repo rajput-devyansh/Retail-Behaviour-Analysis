@@ -1,0 +1,85 @@
+table vw_visitor_summary
+	lineageTag: 1edb0c4c-967b-4ef9-bf35-31266019919b
+
+	measure 'Total Visitors' = DISTINCTCOUNT(vw_visitor_summary[visitorid])
+		formatString: 0
+		lineageTag: 94d9b369-63a9-4cb9-acb0-d1f05b00d9c8
+
+	measure 'Revenue per Visitor' = DIVIDE([Total Revenue], [Total Visitors])
+		lineageTag: b6311d7b-46e7-4d3c-96ee-1e47b1497893
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Segment Revenue' = SUM(vw_visitor_summary[total_revenue])
+		formatString: 0
+		lineageTag: 8b4c4564-67f3-4626-81f8-bcaf1e1388f8
+
+	measure Orders = SUM(vw_visitor_summary[total_orders])
+		formatString: 0
+		lineageTag: f898ffbb-9b58-4f79-bdf0-ad09a7004a31
+
+	column visitorid
+		dataType: double
+		lineageTag: 1f795f77-1ce5-4f60-af59-af1011067953
+		summarizeBy: none
+		sourceColumn: visitorid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_sessions
+		dataType: string
+		lineageTag: 317bbc4c-0a6b-46e2-822e-b462d7acc3d6
+		summarizeBy: none
+		sourceColumn: total_sessions
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: bee583f6-7b95-4903-ab99-15cc58f8efa9
+		summarizeBy: sum
+		sourceColumn: total_orders
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_revenue
+		dataType: double
+		lineageTag: 4073e9b0-ebc8-4d03-b74a-aab98a05dea3
+		summarizeBy: sum
+		sourceColumn: total_revenue
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Visitor Segment' =
+			
+			SWITCH(
+			    TRUE(),
+			    vw_visitor_summary[total_orders] = 0, "Browsers",
+			    vw_visitor_summary[total_orders] = 1, "One-time Buyers",
+			    vw_visitor_summary[total_orders] >= 2, "Repeat Buyers"
+			)
+		lineageTag: 989c83f7-4eaf-4889-ab93-14452068f3fd
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vw_visitor_summary = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("dsn=retailrocket_analytics", [HierarchicalNavigation=true]),
+				    vw_visitor_summary_View = Source{[Name="vw_visitor_summary",Kind="View"]}[Data]
+				in
+				    vw_visitor_summary_View
+
+	annotation PBI_ResultType = Table
+
