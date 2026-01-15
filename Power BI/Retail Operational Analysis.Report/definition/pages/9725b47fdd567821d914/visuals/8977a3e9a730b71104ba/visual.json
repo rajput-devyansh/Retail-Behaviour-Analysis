@@ -414,5 +414,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "db42c0508cdce7076d0a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "vw_session_metrics"
+              }
+            },
+            "Property": "session_date"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "777b62635987d8bb641d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "vw_session_metrics"
+              }
+            },
+            "Property": "Total Sessions"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

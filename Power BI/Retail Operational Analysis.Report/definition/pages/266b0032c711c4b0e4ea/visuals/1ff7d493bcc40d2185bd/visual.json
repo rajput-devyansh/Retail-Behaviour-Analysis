@@ -5,8 +5,8 @@
     "x": 0,
     "y": 0,
     "z": 0,
-    "height": 122.5,
-    "width": 725,
+    "height": 122.82553961922544,
+    "width": 1090.3663469970861,
     "tabOrder": 0
   },
   "visual": {
@@ -378,5 +378,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "eca4a742705e000894ec",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "vw_visitor_summary"
+              }
+            },
+            "Property": "Total Visitors"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7de51d4730e0b3be2608",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "vw_visitor_summary"
+              }
+            },
+            "Property": "Segment Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4d856485a90000ac0b20",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "vw_visitor_summary"
+              }
+            },
+            "Property": "Orders"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
